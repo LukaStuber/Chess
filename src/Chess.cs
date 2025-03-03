@@ -132,7 +132,7 @@
 
         static bool CheckInput(string? input)
         {
-            string letters = "abcdefgh";
+            string letters = "abcdefgh"; 
 
             if (input is null) return true;
             if (input.Length != 4) return true;
