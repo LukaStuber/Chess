@@ -45,12 +45,15 @@
         {
             for (int y = 0; y < 8; y++)
             {
+                Console.Write($"{y + 1} | ");
                 for (int x = 0; x < 8; x++)
                 {
                     Console.Write($"{ascii[(int)board[x,y]]} ");
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("  +----------------");
+            Console.WriteLine("    a b c d e f g h");
         }
 
         static void PrintBoardReverse(Pieces[,] board)
