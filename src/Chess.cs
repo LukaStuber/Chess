@@ -29,31 +29,34 @@
             r,
             q,
             k,
+            INVALID
         }
         
         const string ascii = ".PNBRQKpnbrqk";
-        
+
         static void Main()
         {
             Pieces[,] board = GenerateBoard();
-            string input;
+            string? input;
             VectorPair coords = new();
 
-            while (true)
+            PrintBoard(board);
+            input = Console.ReadLine();
+            while (CheckInput(input))
             {
+                Console.WriteLine("invalid input");
+                input = Console.ReadLine();
+            }
+            Console.WriteLine(input);
+
+            while (input != "q")
+            {
+                coords = AlgebraicToCoords(input);
+                board = MovePiece(board, coords);
                 PrintBoard(board);
+
                 input = Console.ReadLine();
                 Console.WriteLine(input);
-
-                coords = AlgebraicToCoords(input);
-                Console.WriteLine(coords.Pair1.x);
-                Console.WriteLine(coords.Pair1.y);
-                Console.WriteLine(coords.Pair2.x);
-                Console.WriteLine(coords.Pair2.y);
-
-                board = MovePiece(board, coords);
-
-                PrintBoard(board);
             }
         }
 
@@ -74,14 +77,17 @@
 
         static void PrintBoardReverse(Pieces[,] board)
         {
-            for (int y = 7; y >= 0; y--)
+            for (int y = 0; y < 8; y++)
             {
-                for (int x = 7; x >= 0; x--)
+                Console.Write($"{y + 1} | ");
+                for (int x = 0; x < 8; x++)
                 {
-                    Console.Write($"{ascii[(int)board[x,y]]} ");
+                    Console.Write($"{ascii[(int)board[x, y]]} ");
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("  +----------------");
+            Console.WriteLine("    a b c d e f g h");
         }
 
         static Pieces[,] GenerateBoard()
@@ -113,12 +119,28 @@
 
         static Pieces[,] MovePiece(Pieces[,] board, VectorPair coords)
         {
-            Pieces piece = board[coords.Pair1.x, coords.Pair1.y];
-            board[coords.Pair1.x, coords.Pair1.y] = Pieces.e;
+            Pieces piece = board[coords.Pair1.x, coords.Pair1.y] == Pieces.e ? Pieces.INVALID : board[coords.Pair1.x, coords.Pair1.y];
 
-            board[coords.Pair2.x, coords.Pair2.y] = piece;
+            if (piece != Pieces.INVALID)
+            {
+                board[coords.Pair1.x, coords.Pair1.y] = Pieces.e;
+                board[coords.Pair2.x, coords.Pair2.y] = piece;
+            }
 
             return board;
+        }
+
+        static bool CheckInput(string? input)
+        {
+            string letters = "abcdefgh";
+
+            if (input is null) return true;
+            if (input.Length != 4) return true;
+            if (!char.IsLetter(input[0]) || !char.IsLetter(input[2])) return true;
+            if (!char.IsNumber(input[1]) || !char.IsNumber(input[3])) return true;
+
+
+            return false;
         }
     }
 }
