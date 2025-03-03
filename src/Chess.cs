@@ -2,6 +2,18 @@
 {
     class Chess
     {
+        struct Vector2
+        {
+            public int x;
+            public int y;
+        }
+
+        struct VectorPair
+        {
+            public Vector2 Pair1;
+            public Vector2 Pair2;           
+        }
+
         enum Pieces
         {
             e,
@@ -25,7 +37,7 @@
         {
             Pieces[,] board = GenerateBoard();
             string input;
-            string coord;
+            VectorPair coords = new();
 
             while (true)
             {
@@ -33,17 +45,21 @@
                 input = Console.ReadLine();
                 Console.WriteLine(input);
 
-                coord = AlgebraicToCoords(input);
-                Console.WriteLine(coord);
+                coords = AlgebraicToCoords(input);
+                Console.WriteLine(coords.Pair1.x);
+                Console.WriteLine(coords.Pair1.y);
+                Console.WriteLine(coords.Pair2.x);
+                Console.WriteLine(coords.Pair2.y);
 
-                Console.WriteLine(ascii[(int)board[int.Parse(coord[0].ToString()), int.Parse(coord[1].ToString())]]);
-                Console.WriteLine(ascii[(int)board[int.Parse(coord[2].ToString()), int.Parse(coord[3].ToString())]]);
+                board = MovePiece(board, coords);
+
+                PrintBoard(board);
             }
         }
 
         static void PrintBoard(Pieces[,] board)
         {
-            for (int y = 0; y < 8; y++)
+            for (int y = 7; y >= 0; y--)
             {
                 Console.Write($"{y + 1} | ");
                 for (int x = 0; x < 8; x++)
@@ -72,34 +88,37 @@
         {
             return new Pieces[,]
             {
-                {Pieces.r, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.R},
-                {Pieces.n, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.N},
-                {Pieces.b, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.B},
-                {Pieces.k, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.K},
-                {Pieces.q, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.Q},
-                {Pieces.b, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.B},
-                {Pieces.n, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.N},
-                {Pieces.r, Pieces.p, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.P, Pieces.R}
+                {Pieces.R, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.r},
+                {Pieces.N, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.n},
+                {Pieces.B, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.b},
+                {Pieces.K, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.k},
+                {Pieces.Q, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.q},
+                {Pieces.B, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.b},
+                {Pieces.N, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.n},
+                {Pieces.R, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.r}
             };
         }
 
-        static string AlgebraicToCoords(string input)
+        static VectorPair AlgebraicToCoords(string input)
         {
-            string output = "";
-            int temp;
+            VectorPair output;
 
-            output += char.ToUpper(input[0]) - 64;
-            output += input[1];
-
-            output += char.ToUpper(input[2]) - 64;
-            output += input[3];
-
-            temp = int.Parse(output);
-            temp -= 1111;
-
-            output = temp.ToString();
+            output.Pair1.x = char.ToUpper(input[0]) - 64 - 1;
+            output.Pair1.y = int.Parse(input[1].ToString()) - 1;
+            output.Pair2.x = char.ToUpper(input[2]) - 64 - 1;
+            output.Pair2.y = int.Parse(input[3].ToString()) - 1;
 
             return output;
+        }
+
+        static Pieces[,] MovePiece(Pieces[,] board, VectorPair coords)
+        {
+            Pieces piece = board[coords.Pair1.x, coords.Pair1.y];
+            board[coords.Pair1.x, coords.Pair1.y] = Pieces.e;
+
+            board[coords.Pair2.x, coords.Pair2.y] = piece;
+
+            return board;
         }
     }
 }
