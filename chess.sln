@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chess", "chess.csproj", "{2BCD243A-2352-4077-8A7D-AF94EFB7C86D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chess", "src/chess.csproj", "{2BCD243A-2352-4077-8A7D-AF94EFB7C86D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
