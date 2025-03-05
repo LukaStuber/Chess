@@ -38,16 +38,15 @@
         {
             Pieces[,] board = GenerateBoard();
             string? input;
-            VectorPair coords = new();
+            VectorPair coords;
 
             PrintBoard(board);
             input = Console.ReadLine();
-            while (CheckInput(input))
+            while (!CheckInput(input, board))
             {
                 Console.WriteLine("invalid input");
                 input = Console.ReadLine();
-            }
-            Console.WriteLine(input);
+            }      
 
             while (input != "q")
             {
@@ -57,6 +56,11 @@
 
                 input = Console.ReadLine();
                 Console.WriteLine(input);
+                while (!CheckInput(input, board))
+                {
+                    Console.WriteLine("invalid input");
+                    input = Console.ReadLine();
+                }
             }
         }
 
@@ -130,17 +134,28 @@
             return board;
         }
 
-        static bool CheckInput(string? input)
+        static bool CheckInput(string? input, Pieces[,] board)
         {
-            string letters = "abcdefgh"; 
+            // false = invalid, true = valid
 
-            if (input is null) return true;
-            if (input.Length != 4) return true;
-            if (!char.IsLetter(input[0]) || !char.IsLetter(input[2])) return true;
-            if (!char.IsNumber(input[1]) || !char.IsNumber(input[3])) return true;
+            string letters = "abcdefgh";
+            string numbers = "12345678";
 
+            if (input is null) return false;
+            if (input.Length != 4) return false;
+            if (!char.IsLetter(input[0]) || !char.IsLetter(input[2])) return false;
+            if (!char.IsNumber(input[1]) || !char.IsNumber(input[3])) return false;
+            if (!letters.Contains(input[0]) && !letters.Contains(input[2])) return false;
+            if (!numbers.Contains(input[1]) && !numbers.Contains(input[3])) return false;
 
-            return false;
+            if (!CheckMoveType(input, board));
+
+            return true;
+        }
+
+        static bool CheckMoveType(string? input, Pieces[,] board)
+        {
+            return true;
         }
     }
 }
