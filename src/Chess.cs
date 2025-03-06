@@ -2,7 +2,6 @@
 {
     class Chess
     {
- 
         struct Vector2
         {
             public int x;
@@ -16,7 +15,7 @@
         }
 
         enum Pieces
-        {
+        { // white = 1-6, black = 7-12
             e,
             P,
             N,
@@ -38,29 +37,39 @@
         static void Main()
         {
             Pieces[,] board = GenerateBoard();
-            string? input;
+            string input;
             VectorPair coords;
+            
+            // true = white, false = black
+            bool turn = true;
 
             PrintBoard(board);
+            Console.Write((turn) ? "White: " : "Black: ");
             input = Console.ReadLine();
-            while (!CheckInput(input, board))
+            while (!ValidInput(input, board, turn))
             {
                 Console.WriteLine("invalid input");
+                Console.Write((turn) ? "White: " : "Black: ");
                 input = Console.ReadLine();
-            }      
+            }
+            turn = !turn;
 
             while (input != "q")
             {
+                Console.Clear();
                 coords = AlgebraicToCoords(input);
                 board = MovePiece(board, coords);
                 PrintBoard(board);
 
+                Console.Write((turn) ? "White: " : "Black: ");
                 input = Console.ReadLine();
-                while (!CheckInput(input, board))
+                while (!ValidInput(input, board, turn))
                 {
                     Console.WriteLine("invalid input");
+                    Console.Write((turn) ? "White: " : "Black: ");
                     input = Console.ReadLine();
                 }
+                turn = !turn;
             }
         }
 
@@ -134,9 +143,10 @@
             return board;
         }
 
-        static bool CheckInput(string? input, Pieces[,] board)
+        static bool ValidInput(string input, Pieces[,] board, bool turn)
         {
             // false = invalid, true = valid
+            
 
             string letters = "abcdefgh"; 
             string numbers = "12345678";
@@ -147,14 +157,28 @@
             if (!char.IsNumber(input[1]) || !char.IsNumber(input[3])) return false;
             if (!letters.Contains(input[0]) && !letters.Contains(input[2])) return false;
             if (!numbers.Contains(input[1]) && !numbers.Contains(input[3])) return false;
-            if (!CheckMoveType(input, board)) return false;
+
+            VectorPair coords = AlgebraicToCoords(input);
+            if (turn)
+            {
+                if ((int)board[coords.Pair1.x, coords.Pair1.y] < 1 || (int)board[coords.Pair1.x, coords.Pair1.y] > 6) return false;
+            }
+            else
+            {
+                if ((int)board[coords.Pair1.x, coords.Pair1.y] < 7) return false;
+            }
+
+            if (!ValidMoveType(input, board, coords)) return false;
 
             return true;
         }
 
-        static bool CheckMoveType(string? input, Pieces[,] board)
+        static bool ValidMoveType(string input, Pieces[,] board, VectorPair coords)
         {
+
             return true;
         }
+
+        
     }
 }
