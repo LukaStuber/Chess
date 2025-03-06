@@ -2,6 +2,7 @@
 {
     class Chess
     {
+ 
         struct Vector2
         {
             public int x;
@@ -55,7 +56,6 @@
                 PrintBoard(board);
 
                 input = Console.ReadLine();
-                Console.WriteLine(input);
                 while (!CheckInput(input, board))
                 {
                     Console.WriteLine("invalid input");
@@ -138,7 +138,7 @@
         {
             // false = invalid, true = valid
 
-            string letters = "abcdefgh";
+            string letters = "abcdefgh"; 
             string numbers = "12345678";
 
             if (input is null) return false;
@@ -147,8 +147,7 @@
             if (!char.IsNumber(input[1]) || !char.IsNumber(input[3])) return false;
             if (!letters.Contains(input[0]) && !letters.Contains(input[2])) return false;
             if (!numbers.Contains(input[1]) && !numbers.Contains(input[3])) return false;
-
-            if (!CheckMoveType(input, board));
+            if (!CheckMoveType(input, board)) return false;
 
             return true;
         }
