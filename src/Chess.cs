@@ -35,7 +35,7 @@
         const string ascii = ".PNBRQKpnbrqk";
 
         static void Main()
-        {
+        {          
             Pieces[,] board = GenerateBoard();
             string input;
             VectorPair coords;
@@ -80,7 +80,22 @@
                 Console.Write($"{y + 1} | ");
                 for (int x = 0; x < 8; x++)
                 {
+                    /*if (x % 2 == 0 && y % 2 != 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    else if (y % 2 == 0 && x % 2 != 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    }*/
+
                     Console.Write($"{ascii[(int)board[x,y]]} ");
+
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 Console.WriteLine();
             }
@@ -146,8 +161,9 @@
         static bool ValidInput(string input, Pieces[,] board, bool turn)
         {
             // false = invalid, true = valid
-            
 
+            if (input == "q") return true; // exception for quit
+            
             string letters = "abcdefgh"; 
             string numbers = "12345678";
 
@@ -155,8 +171,8 @@
             if (input.Length != 4) return false;
             if (!char.IsLetter(input[0]) || !char.IsLetter(input[2])) return false;
             if (!char.IsNumber(input[1]) || !char.IsNumber(input[3])) return false;
-            if (!letters.Contains(input[0]) && !letters.Contains(input[2])) return false;
-            if (!numbers.Contains(input[1]) && !numbers.Contains(input[3])) return false;
+            if (!letters.Contains(input[0]) || !letters.Contains(input[2])) return false;
+            if (!numbers.Contains(input[1]) || !numbers.Contains(input[3])) return false;
 
             VectorPair coords = AlgebraicToCoords(input);
             if (turn)
@@ -168,12 +184,12 @@
                 if ((int)board[coords.Pair1.x, coords.Pair1.y] < 7) return false;
             }
 
-            if (!ValidMoveType(input, board, coords)) return false;
+            if (!ValidMove(input, board, coords)) return false;
 
             return true;
         }
 
-        static bool ValidMoveType(string input, Pieces[,] board, VectorPair coords)
+        static bool ValidMove(string input, Pieces[,] board, VectorPair coords)
         {
             return true;
         }
