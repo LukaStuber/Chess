@@ -175,7 +175,6 @@
 
         static bool ValidMoveType(string input, Pieces[,] board, VectorPair coords)
         {
-
             return true;
         }
 
