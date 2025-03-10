@@ -2,18 +2,6 @@
 {
     class Chess
     {
-        struct Vector2
-        {
-            public int x;
-            public int y;
-        }
-
-        struct VectorPair
-        {
-            public Vector2 Pair1;
-            public Vector2 Pair2;           
-        }
-
         enum Pieces
         { // white = 1-6, black = 7-12
             e,
@@ -31,6 +19,18 @@
             k,
             INVALID
         }
+
+        struct Vector2
+        {
+            public int x;
+            public int y;
+        }
+
+        struct VectorPair
+        {
+            public Vector2 Pair1;
+            public Vector2 Pair2;           
+        }             
         
         const string ascii = ".PNBRQKpnbrqk";
 
@@ -191,9 +191,7 @@
 
         static bool ValidMove(string input, Pieces[,] board, VectorPair coords)
         {
-            return true;
+            return 
         }
-
-        
     }
 }
