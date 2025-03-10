@@ -1,8 +1,14 @@
-﻿namespace Chess
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Chess
 {
-    class Chess
+    class Game
     {
-        enum Pieces
+        public enum Pieces
         { // white = 1-6, black = 7-12
             e,
             P,
@@ -20,60 +26,21 @@
             INVALID
         }
 
-        struct Vector2
+        public struct Vector2
         {
             public int x;
             public int y;
         }
 
-        struct VectorPair
+        public struct VectorPair
         {
             public Vector2 Pair1;
-            public Vector2 Pair2;           
-        }             
-        
-        const string ascii = ".PNBRQKpnbrqk";
-
-        static void Main()
-        {          
-            Pieces[,] board = GenerateBoard();
-            string input;
-            VectorPair coords;
-            
-            // true = white, false = black
-            bool turn = true;
-
-            PrintBoard(board);
-            Console.Write((turn) ? "White: " : "Black: ");
-            input = Console.ReadLine();
-            while (!ValidInput(input, board, turn))
-            {
-                Console.WriteLine("invalid input");
-                Console.Write((turn) ? "White: " : "Black: ");
-                input = Console.ReadLine();
-            }
-            turn = !turn;
-
-            while (input != "q")
-            {
-                Console.Clear();
-                coords = AlgebraicToCoords(input);
-                board = MovePiece(board, coords);
-                PrintBoard(board);
-
-                Console.Write((turn) ? "White: " : "Black: ");
-                input = Console.ReadLine();
-                while (!ValidInput(input, board, turn))
-                {
-                    Console.WriteLine("invalid input");
-                    Console.Write((turn) ? "White: " : "Black: ");
-                    input = Console.ReadLine();
-                }
-                turn = !turn;
-            }
+            public Vector2 Pair2;
         }
 
-        static void PrintBoard(Pieces[,] board)
+        const string ascii = ".PNBRQKpnbrqk";
+
+        public static void PrintBoard(Pieces[,] board)
         {
             for (int y = 7; y >= 0; y--)
             {
@@ -93,7 +60,7 @@
                         Console.BackgroundColor = ConsoleColor.DarkGreen;
                     }*/
 
-                    Console.Write($"{ascii[(int)board[x,y]]} ");
+                    Console.Write($"{ascii[(int)board[x, y]]} ");
 
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
@@ -103,7 +70,7 @@
             Console.WriteLine("    a b c d e f g h");
         }
 
-        static void PrintBoardReverse(Pieces[,] board)
+        public static void PrintBoardReverse(Pieces[,] board)
         {
             for (int y = 0; y < 8; y++)
             {
@@ -118,7 +85,7 @@
             Console.WriteLine("    a b c d e f g h");
         }
 
-        static Pieces[,] GenerateBoard()
+        public static Pieces[,] GenerateBoard()
         {
             return new Pieces[,]
             {
@@ -133,7 +100,7 @@
             };
         }
 
-        static VectorPair AlgebraicToCoords(string input)
+        public static VectorPair AlgebraicToCoords(string input)
         {
             VectorPair output;
 
@@ -145,7 +112,7 @@
             return output;
         }
 
-        static Pieces[,] MovePiece(Pieces[,] board, VectorPair coords)
+        public static Pieces[,] MovePiece(Pieces[,] board, VectorPair coords)
         {
             Pieces piece = board[coords.Pair1.x, coords.Pair1.y] == Pieces.e ? Pieces.INVALID : board[coords.Pair1.x, coords.Pair1.y];
 
@@ -158,13 +125,13 @@
             return board;
         }
 
-        static bool ValidInput(string input, Pieces[,] board, bool turn)
+        public static bool ValidInput(string input, Pieces[,] board, bool turn)
         {
             // false = invalid, true = valid
 
             if (input == "q") return true; // exception for quit
-            
-            string letters = "abcdefgh"; 
+
+            string letters = "abcdefgh";
             string numbers = "12345678";
 
             if (input is null) return false;
@@ -184,14 +151,19 @@
                 if ((int)board[coords.Pair1.x, coords.Pair1.y] < 7) return false;
             }
 
-            if (!ValidMove(input, board, coords)) return false;
+            if (!GetValidMove(input, board, coords)) return false;
 
             return true;
         }
 
-        static bool ValidMove(string input, Pieces[,] board, VectorPair coords)
+        private static bool GetValidMove(string input, Pieces[,] board, VectorPair coords)
         {
-            return 
+            return (int)board[coords.Pair1.x, coords.Pair1.y] switch
+            {
+                0 => false,
+                1 => Pawn.ValidMove(input, board, coords),
+                _ => true
+            };
         }
     }
 }
