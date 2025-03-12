@@ -151,7 +151,7 @@ namespace Chess
                 if ((int)board[coords.Pair1.x, coords.Pair1.y] < 7) return false;
             }
 
-            if (!GetValidMove(input, board, coords)) return false;
+            if (!GetValidMove(input, board, coords)) return false; 
 
             return true;
         }
