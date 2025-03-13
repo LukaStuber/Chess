@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chess
+﻿namespace Chess
 {
     class Game
     {
+        public struct Piece
+        {
+            public Pieces piece;
+            public bool isWhite;
+        }
+
         public enum Pieces
         { // white = 1-6, black = 7-12
             e,
@@ -38,7 +38,7 @@ namespace Chess
             public Vector2 Pair2;
         }
 
-        const string ascii = ".PNBRQKpnbrqk";
+        const string ascii = " ♙♘♗♖♕♔♙♘♗♖♕♔";
 
         public static void PrintBoard(Pieces[,] board)
         {
@@ -47,7 +47,7 @@ namespace Chess
                 Console.Write($"{y + 1} | ");
                 for (int x = 0; x < 8; x++)
                 {
-                    /*if (x % 2 == 0 && y % 2 != 0)
+                    if (x % 2 == 0 && y % 2 != 0)
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
                     }
@@ -58,10 +58,20 @@ namespace Chess
                     else
                     {
                         Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    }*/
+                    }
+
+                    if ((int)board[x, y] >= 1 && (int)board[x, y] <= 6)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
 
                     Console.Write($"{ascii[(int)board[x, y]]} ");
 
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
                 Console.WriteLine();
@@ -77,7 +87,32 @@ namespace Chess
                 Console.Write($"{y + 1} | ");
                 for (int x = 0; x < 8; x++)
                 {
+                    if (x % 2 == 0 && y % 2 != 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    else if (y % 2 == 0 && x % 2 != 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    }
+
+                    if ((int)board[x, y] >= 1 && (int)board[x, y] <= 6)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+
                     Console.Write($"{ascii[(int)board[x, y]]} ");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 Console.WriteLine();
             }
@@ -112,6 +147,23 @@ namespace Chess
             return output;
         }
 
+        public static string GetInput(Pieces[,] board, bool isWhite)
+        {
+            string _input;
+
+            Console.Write((isWhite) ? "White: " : "Black: ");
+            _input = Console.ReadLine();
+
+            while (!ValidInput(_input, board, isWhite))
+            {
+                Console.WriteLine("invalid input");
+                Console.Write((isWhite) ? "White: " : "Black: ");
+                _input = Console.ReadLine();
+            }
+
+            return _input;
+        }
+
         public static Pieces[,] MovePiece(Pieces[,] board, VectorPair coords)
         {
             Pieces piece = board[coords.Pair1.x, coords.Pair1.y] == Pieces.e ? Pieces.INVALID : board[coords.Pair1.x, coords.Pair1.y];
@@ -125,7 +177,7 @@ namespace Chess
             return board;
         }
 
-        public static bool ValidInput(string input, Pieces[,] board, bool turn)
+        public static bool ValidInput(string input, Pieces[,] board, bool isWhite)
         {
             // false = invalid, true = valid
 
@@ -142,7 +194,7 @@ namespace Chess
             if (!numbers.Contains(input[1]) || !numbers.Contains(input[3])) return false;
 
             VectorPair coords = AlgebraicToCoords(input);
-            if (turn)
+            if (isWhite)
             {
                 if ((int)board[coords.Pair1.x, coords.Pair1.y] < 1 || (int)board[coords.Pair1.x, coords.Pair1.y] > 6) return false;
             }
@@ -162,7 +214,17 @@ namespace Chess
             {
                 0 => false,
                 1 => Pawn.ValidMove(input, board, coords),
-                _ => true
+                //2 => Knight.ValidMove(input, board, coords),
+                //3 => Bishop.ValidMove(input, board, coords),
+                //4 => Rook.ValidMove(input, board, coords),
+                //5 => Queen.ValidMove(input, board, coords),
+                //6 => King.ValidMove(input, board, coords),
+                7 => Pawn.ValidMove(input, board, coords),
+                //8 => Knight.ValidMove(input, board, coords),
+                //9 => Bishop.ValidMove(input, board, coords),
+                //10 => Rook.ValidMove(input, board, coords),
+                //11 => Queen.ValidMove(input, board, coords),
+                //12 => King.ValidMove(input, board, coords),
             };
         }
     }

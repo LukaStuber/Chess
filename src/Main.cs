@@ -1,4 +1,5 @@
-﻿using static Chess.Game;
+﻿using System.Text;
+using static Chess.Game;
 
 namespace Chess
 {
@@ -6,23 +7,17 @@ namespace Chess
     {
         static void Main()
         {
+            Console.OutputEncoding = Encoding.Unicode;
+            
             Pieces[,] board = GenerateBoard();
             string input;
             VectorPair coords;
             
-            // true = white, false = black
-            bool turn = true;
+            bool isWhite = true;
 
             PrintBoard(board);
-            Console.Write((turn) ? "White: " : "Black: ");
-            input = Console.ReadLine();
-            while (!ValidInput(input, board, turn))
-            {
-                Console.WriteLine("invalid input");
-                Console.Write((turn) ? "White: " : "Black: ");
-                input = Console.ReadLine();
-            }
-            turn = !turn;
+            input = GetInput(board, isWhite);
+            isWhite = !isWhite;
 
             while (input != "q")
             {
@@ -31,18 +26,11 @@ namespace Chess
                 coords = AlgebraicToCoords(input);
                 board = MovePiece(board, coords);
 
-                if (turn) PrintBoard(board);
+                if (isWhite) PrintBoard(board);
                 else PrintBoardReverse(board);
-                Console.Write((turn) ? "White: " : "Black: ");
 
-                input = Console.ReadLine();
-                while (!ValidInput(input, board, turn))
-                {
-                    Console.WriteLine("invalid input");
-                    Console.Write((turn) ? "White: " : "Black: ");
-                    input = Console.ReadLine();
-                }
-                turn = !turn;
+                input = GetInput(board, isWhite);
+                isWhite = !isWhite;
             }
         }   
     }
