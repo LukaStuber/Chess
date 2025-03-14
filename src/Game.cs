@@ -2,29 +2,8 @@
 {
     class Game
     {
-        public struct Piece
-        {
-            public Pieces piece;
-            public bool isWhite;
-        }
 
-        public enum Pieces
-        { // white = 1-6, black = 7-12
-            e,
-            P,
-            N,
-            B,
-            R,
-            Q,
-            K,
-            p,
-            n,
-            b,
-            r,
-            q,
-            k,
-            INVALID
-        }
+        
 
         public struct Vector2
         {
@@ -149,19 +128,19 @@
 
         public static string GetInput(Pieces[,] board, bool isWhite)
         {
-            string _input;
+            string input;
 
             Console.Write((isWhite) ? "White: " : "Black: ");
-            _input = Console.ReadLine();
+            input = Console.ReadLine();
 
-            while (!ValidInput(_input, board, isWhite))
+            while (!ValidInput(input, board, isWhite))
             {
                 Console.WriteLine("invalid input");
                 Console.Write((isWhite) ? "White: " : "Black: ");
-                _input = Console.ReadLine();
+                input = Console.ReadLine();
             }
 
-            return _input;
+            return input;
         }
 
         public static Pieces[,] MovePiece(Pieces[,] board, VectorPair coords)
@@ -225,6 +204,7 @@
                 //10 => Rook.ValidMove(input, board, coords),
                 //11 => Queen.ValidMove(input, board, coords),
                 //12 => King.ValidMove(input, board, coords),
+                _ => true
             };
         }
     }
