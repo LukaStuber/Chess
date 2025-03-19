@@ -1,4 +1,7 @@
-﻿namespace Chess
+﻿using static Chess.Piece;
+using static Chess.Chess;
+
+namespace Chess
 {
     class Game
     {

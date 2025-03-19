@@ -1,10 +1,11 @@
 ﻿using System.Text;
+
 using static Chess.Game;
-using System.Numerics;
+using static Chess.Chess;
 
 namespace Chess
 {
-    class Chess
+    class Program
     {
         static void Main()
         {
@@ -27,8 +28,8 @@ namespace Chess
                 coords = AlgebraicToCoords(input);
                 board = MovePiece(board, coords);
 
-                if (isWhite) PrintBoard(board);
-                else PrintBoardReverse(board);
+                if (isWhite)    PrintBoard(board);
+                else            PrintBoardReverse(board);
 
                 input = GetInput(board, isWhite);
                 isWhite = !isWhite;
