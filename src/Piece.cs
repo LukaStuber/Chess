@@ -1,10 +1,9 @@
 ﻿using static Chess.Game;
-using static Chess.Chess;
-using Microsoft.Win32.SafeHandles;
+using static Chess.Core;
 
 namespace Chess
 {
-    class Chess
+    class Core
     {
         public enum Pieces
         { // white = 1-6, black = 7-12
@@ -25,18 +24,16 @@ namespace Chess
         }
     }
 
-    abstract class Piece
+    class Pawn
     {
-        public Pieces piece { get; set; }
-    }
-
-    class Pawn : Piece
-    {
-        public bool home { get; set; }
-
-        public static bool ValidMove(string input, Pieces[,] board, VectorPair coords)
+        public static bool ValidMove(Pieces[,] board, VectorPair coords)
         {
+            bool isWhite = board[coords.Pair1.x, coords.Pair1.y] == Pieces.P ? true : false;
+
+            
+
             return true;
         }
     }
+    
 }

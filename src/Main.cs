@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 using static Chess.Game;
-using static Chess.Chess;
+using static Chess.Core;
 
 namespace Chess
 {

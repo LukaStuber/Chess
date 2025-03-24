@@ -1,13 +1,9 @@
-﻿using static Chess.Piece;
-using static Chess.Chess;
+﻿using static Chess.Core;
 
 namespace Chess
 {
     class Game
     {
-
-        
-
         public struct Vector2
         {
             public int x;
@@ -109,8 +105,8 @@ namespace Chess
                 {Pieces.R, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.r},
                 {Pieces.N, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.n},
                 {Pieces.B, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.b},
-                {Pieces.K, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.k},
                 {Pieces.Q, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.q},
+                {Pieces.K, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.k},
                 {Pieces.B, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.b},
                 {Pieces.N, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.n},
                 {Pieces.R, Pieces.P, Pieces.e, Pieces.e, Pieces.e ,Pieces.e, Pieces.p, Pieces.r}
@@ -159,7 +155,7 @@ namespace Chess
             return board;
         }
 
-        public static bool ValidInput(string input, Pieces[,] board, bool isWhite)
+        private static bool ValidInput(string input, Pieces[,] board, bool isWhite)
         {
             // false = invalid, true = valid
 
@@ -185,30 +181,34 @@ namespace Chess
                 if ((int)board[coords.Pair1.x, coords.Pair1.y] < 7) return false;
             }
 
-            if (!GetValidMove(input, board, coords)) return false; 
+            if (!GetValidMove(board, coords)) return false; 
 
             return true;
         }
 
-        private static bool GetValidMove(string input, Pieces[,] board, VectorPair coords)
+        private static bool GetValidMove(Pieces[,] board, VectorPair coords)
         {
             return (int)board[coords.Pair1.x, coords.Pair1.y] switch
             {
-                0 => false,
-                1 => Pawn.ValidMove(input, board, coords),
-                //2 => Knight.ValidMove(input, board, coords),
-                //3 => Bishop.ValidMove(input, board, coords),
-                //4 => Rook.ValidMove(input, board, coords),
-                //5 => Queen.ValidMove(input, board, coords),
-                //6 => King.ValidMove(input, board, coords),
-                7 => Pawn.ValidMove(input, board, coords),
-                //8 => Knight.ValidMove(input, board, coords),
-                //9 => Bishop.ValidMove(input, board, coords),
-                //10 => Rook.ValidMove(input, board, coords),
-                //11 => Queen.ValidMove(input, board, coords),
-                //12 => King.ValidMove(input, board, coords),
-                _ => true
+                1 => Pawn.ValidMove(board, coords),
+                //2 => Knight.ValidMove(board, coords),
+                //3 => Bishop.ValidMove(board, coords),
+                //4 => Rook.ValidMove(board, coords),
+                //5 => Queen.ValidMove(board, coords),
+                //6 => King.ValidMove(board, coords),
+                7 => Pawn.ValidMove(board, coords),
+                //8 => Knight.ValidMove(board, coords),
+                //9 => Bishop.ValidMove(board, coords),
+                //10 => Rook.ValidMove(board, coords),
+                //11 => Queen.ValidMove(board, coords),
+                //12 => King.ValidMove(board, coords),
+                _ => false
             };
+        }
+
+        public static bool IsPieceInWay(Pieces[,] board, VectorPair coords)
+        {
+            return false;
         }
     }
 }
