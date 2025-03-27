@@ -4,6 +4,24 @@ namespace Chess
 {
     class Game
     {
+        public enum Pieces
+        { // white = 1-6, black = 7-12
+            e,
+            P,
+            N,
+            B,
+            R,
+            Q,
+            K,
+            p,
+            n,
+            b,
+            r,
+            q,
+            k,
+            INVALID
+        }
+
         public struct Vector2
         {
             public int x;
@@ -202,7 +220,7 @@ namespace Chess
                 //10 => Rook.ValidMove(board, coords),
                 //11 => Queen.ValidMove(board, coords),
                 //12 => King.ValidMove(board, coords),
-                _ => false
+                _ => true
             };
         }
 
