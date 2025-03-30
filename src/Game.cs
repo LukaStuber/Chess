@@ -1,6 +1,4 @@
-﻿using static Chess.Core;
-
-namespace Chess
+﻿namespace Chess
 {
     class Game
     {
@@ -208,18 +206,18 @@ namespace Chess
         {
             return (int)board[coords.Pair1.x, coords.Pair1.y] switch
             {
-                1 => Pawn.ValidMove(board, coords),
-                //2 => Knight.ValidMove(board, coords),
-                //3 => Bishop.ValidMove(board, coords),
-                //4 => Rook.ValidMove(board, coords),
-                //5 => Queen.ValidMove(board, coords),
-                //6 => King.ValidMove(board, coords),
-                7 => Pawn.ValidMove(board, coords),
-                //8 => Knight.ValidMove(board, coords),
-                //9 => Bishop.ValidMove(board, coords),
-                //10 => Rook.ValidMove(board, coords),
-                //11 => Queen.ValidMove(board, coords),
-                //12 => King.ValidMove(board, coords),
+                1 => Pawn.IsMoveValid(board, coords),
+                //2 => Knight.IsMoveValid(board, coords),
+                //3 => Bishop.IsMoveValid(board, coords),
+                //4 => Rook.IsMoveValid(board, coords),
+                //5 => Queen.IsMoveValid(board, coords),
+                //6 => King.IsMoveValid(board, coords),
+                7 => Pawn.IsMoveValid(board, coords),
+                //8 => Knight.IsMoveValid(board, coords),
+                //9 => Bishop.IsMoveValid(board, coords),
+                //10 => Rook.IsMoveValid(board, coords),
+                //11 => Queen.IsMoveValid(board, coords),
+                //12 => King.IsMoveValid(board, coords),
                 _ => true
             };
         }

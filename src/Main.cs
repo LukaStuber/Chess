@@ -1,7 +1,5 @@
 ﻿using System.Text;
-
 using static Chess.Game;
-using static Chess.Core;
 
 namespace Chess
 {
@@ -9,6 +7,7 @@ namespace Chess
     {
         static void Main()
         {
+            Console.Title = "Chess";
             Console.OutputEncoding = Encoding.Unicode;
             
             Pieces[,] board = GenerateBoard();
